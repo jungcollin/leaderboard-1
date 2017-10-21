@@ -20,8 +20,8 @@ public class AdminController {
 
 	@PostMapping(path = "createLeaderboardInfo")
 	public Map<String, Object> createLeaderboardInfo(@RequestParam String name,
-	                                             @RequestParam Period period,
-	                                             @RequestParam Sort sort) {
+	                                                 @RequestParam Period period,
+	                                                 @RequestParam Sort sort) {
 
 		Map<String, Object> result = adminService.createLeaderboard(name,
 				period,
