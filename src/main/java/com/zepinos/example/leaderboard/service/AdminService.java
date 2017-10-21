@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.zepinos.example.leaderboard.domain.LeaderboardInfo;
 import com.zepinos.example.leaderboard.domain.Period;
 import com.zepinos.example.leaderboard.domain.Sort;
+import com.zepinos.example.leaderboard.domain.Status;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,7 @@ public class AdminService {
 		leaderboardInfo.setName(name);
 		leaderboardInfo.setPeriod(period);
 		leaderboardInfo.setSort(sort);
+		leaderboardInfo.setStatus(Status.USE);
 
 		// Redis 에 리더보드 기본 정보 생성
 		listOperations.rightPush("leaderboard_info", leaderboardInfo);
@@ -57,7 +59,8 @@ public class AdminService {
 				// 동일한 개체를 찾았으면 해당 번호를 획득한다.
 				if (currentLeaderboardInfo.getName().equals(name) &&
 						currentLeaderboardInfo.getPeriod().equals(period) &&
-						currentLeaderboardInfo.getSort().equals(sort))
+						currentLeaderboardInfo.getSort().equals(sort) &&
+						currentLeaderboardInfo.getStatus() == Status.USE)
 					break;
 
 				size++;
