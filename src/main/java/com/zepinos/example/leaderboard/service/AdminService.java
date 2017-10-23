@@ -78,4 +78,28 @@ public class AdminService {
 
 	}
 
+	public Map<String, Object> contentLeaderboard(long position) {
+
+		Map<String, Object> result = Maps.newHashMap();
+
+		// 결과 저장
+		result.put("status", 0);
+		result.put("leaderboardInfo", listOperations.index("leaderboard_info", position));
+
+		return result;
+
+	}
+
+	public Map<String, Object> listLeaderboard(long startPosition, long endPosition) {
+
+		Map<String, Object> result = Maps.newHashMap();
+
+		// 결과 저장
+		result.put("status", 0);
+		result.put("leaderboardInfoList", listOperations.range("leaderboard_info", startPosition, endPosition));
+
+		return result;
+
+	}
+
 }

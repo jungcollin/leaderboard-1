@@ -31,4 +31,26 @@ public class AdminController {
 
 	}
 
+	@PostMapping(path = "contentLeaderboardInfo")
+	public Map<String, Object> contentLeaderboardInfo(@RequestParam long position,
+	                                                  @RequestParam Period period,
+	                                                  @RequestParam Sort sort) {
+
+		Map<String, Object> result = adminService.contentLeaderboard(position);
+
+		return result;
+
+	}
+
+	@PostMapping(path = "listLeaderboardInfo")
+	public Map<String, Object> listLeaderboardInfo(@RequestParam long startPosition,
+	                                               @RequestParam long endPosition) {
+
+		Map<String, Object> result = adminService.listLeaderboard(startPosition,
+				endPosition);
+
+		return result;
+
+	}
+
 }
