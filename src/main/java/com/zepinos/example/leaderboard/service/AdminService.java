@@ -84,10 +84,20 @@ public class AdminService {
 
 		// 결과 저장
 		result.put("status", 0);
-		result.put("leaderboardInfo", listOperations.index("leaderboard_info", position));
+		result.put("leaderboardInfo", getLeaderboardInfo(position));
 
 		return result;
 
+	}
+
+	/**
+	 * 리더보드 정보 가져오기
+	 *
+	 * @param position 리더보드 정보 위치
+	 * @return
+	 */
+	public LeaderboardInfo getLeaderboardInfo(long position) {
+		return listOperations.index("leaderboard_info", position);
 	}
 
 	public Map<String, Object> listLeaderboard(long startPosition, long endPosition) {
