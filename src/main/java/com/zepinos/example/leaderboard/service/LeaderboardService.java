@@ -48,7 +48,7 @@ public class LeaderboardService {
 			result.put("status", 1002);
 			result.put("message", "사용 가능한 리더보드가 아닙니다다.");
 
-
+		}
 
 		// TODO 점수 등록
 
