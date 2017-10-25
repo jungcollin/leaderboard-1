@@ -96,7 +96,7 @@ public class AdminService {
 	 * @param position 리더보드 정보 위치
 	 * @return
 	 */
-	public LeaderboardInfo getLeaderboardInfo(long position) {
+	LeaderboardInfo getLeaderboardInfo(long position) {
 		return listOperations.index("leaderboard_info", position);
 	}
 
