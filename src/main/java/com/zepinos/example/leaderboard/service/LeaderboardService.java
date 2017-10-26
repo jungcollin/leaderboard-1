@@ -101,6 +101,7 @@ public class LeaderboardService {
 
 		// 키 형태 : leaderboard:기간:위치:기간이름
 		return String.format("leaderboard:%s:%d:%s", period.name(), position, periodName);
+
 	}
 
 }
