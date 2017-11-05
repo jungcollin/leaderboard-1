@@ -6,6 +6,7 @@ import com.zepinos.example.leaderboard.domain.Period;
 import com.zepinos.example.leaderboard.domain.Sort;
 import com.zepinos.example.leaderboard.domain.Status;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,8 @@ public class LeaderboardService {
 
 	@Resource(name = "redisTemplate")
 	private ZSetOperations<String, String> zSetOperations;
+	@Resource(name = "redisTemplate")
+	private HashOperations<String, String, Long> epochHashOperations;
 
 	@Autowired
 	private AdminService adminService;
@@ -63,9 +66,26 @@ public class LeaderboardService {
 		LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
 		// leaderboardInfo 에서 정렬 정보로 key 을 생성
-		String key = getKey(position, period, localDateTime);
+		// zset : 리더보드, epoch : 아이디의 점수를 마지막으로 저장한 timestamp
+		String currentKey = getKey(position, period, localDateTime);
+		String currentZSetKey = currentKey + ":zset";
+		String currentEpochKey = currentKey + ":epoch";
 
-		// TODO 점수 등록
+		if (epochHashOperations.hasKey(currentEpochKey, userId)) {
+
+			// TODO 마지막으로 점수를 저장한 timestamp 을 가져와 ZSet 에서 사용자의 등록된 점수 조회
+			Long currentEpoch = epochHashOperations.get(currentEpochKey, userId);
+
+			Double currentScore = zSetOperations.score(currentKey, currentEpoch + ":" + userId);
+
+			if (currentScore.doubleValue() < score)
+
+		} else {
+
+			// TODO 등록된 정보가 없다면 최초 등록이기 때문에 무조건 등록
+
+		}
+
 
 		// 결과 저장
 		result.put("status", 0);
@@ -74,6 +94,15 @@ public class LeaderboardService {
 
 	}
 
+	/**
+	 * ZSet 에서 사용할 키 생성<br>
+	 * 생성방식은 leaderboard:날짜:position:날짜형식
+	 *
+	 * @param position
+	 * @param period
+	 * @param localDateTime
+	 * @return
+	 */
 	private String getKey(long position,
 	                      Period period,
 	                      LocalDateTime localDateTime) {
