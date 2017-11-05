@@ -78,7 +78,12 @@ public class LeaderboardService {
 
 			Double currentScore = zSetOperations.score(currentKey, currentEpoch + ":" + userId);
 
-			if (currentScore.doubleValue() < score)
+			if ((sort == Sort.ASC && currentScore.doubleValue() < score) ||
+					(sort == Sort.DESC && currentScore > score)) {
+
+				// TODO 현재 timestamp 와 점수를 저장
+
+			}
 
 		} else {
 
